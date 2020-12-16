@@ -28,18 +28,19 @@ class RiftHarold:
     return info
 
 
-def get_live_data(self, encryptedSummonerId):
-  url = self._base_url + 'spectator/v4/active-games/by-summoner/{encryptedSummonerId}'
-  request =  '{}?api_key={}'.format(url, self.riot_api_key)
-  response = requests.get(request)
+  def get_live_data(self, encryptedSummonerId):
+    url = self._base_url + 'spectator/v4/active-games/by-summoner/' + encryptedSummonerId
+    request =  '{}?api_key={}'.format(url, self.riot_api_key)
+    response = requests.get(request)
 
-  if response.status == 200:
-    return response
-  else:
-    return 'Cannot get live data at this time'
+    if response.status_code == 200:
+      # TODO: parse perks
+      return response.text
+    else:
+      return 'Cannot get live data at this time. Response code:%s' % response.status_code
 
 
-def start_tracking(self, summoner_name):
-  summonerData = self.get_summoner_info(summoner_name, True)
-  return self.get_live_data(summonerData['id'])
+  def start_tracking(self, summoner_name):
+    summonerData = self.get_summoner_info(summoner_name, True)
+    return self.get_live_data(summonerData['id'])
 
