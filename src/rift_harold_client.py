@@ -31,5 +31,7 @@ class RiftHaroldClient(discord.Client):
       else:
         summoner_name = ''
       await message.channel.send(self.rift_harold.start_tracking(summoner_name))
+    elif message.content.startswith('shut up harold'):
+      await message.channel.send('I\'m sorry')
     elif message.content.startswith('!'):
       await message.channel.send("Supported commands: !summoner")
